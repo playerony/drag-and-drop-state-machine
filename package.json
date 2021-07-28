@@ -1,0 +1,55 @@
+{
+  "name": "drag-and-drop-state-machine",
+  "version": "1.0.0",
+  "description": "drag and drop state machine",
+  "license": "MIT",
+  "author": "Paweł Wojtasiński",
+  "homepage": "https://github.com/playerony/drag-and-drop-state-machine#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerony/drag-and-drop-state-machine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/playerony/drag-and-drop-state-machine/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "check": "npm run lint",
+    "commitlint": "commitlint -- --from=main",
+    "format": "prettier --write \"src/**/*\"",
+    "lint": "eslint \"./src/**/*\"",
+    "lint:fix": "eslint --fix \"./src/**/*\"",
+    "prepare": "husky install",
+    "reinstall-deps": "bash ./scripts/reinstall-deps.sh"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.1",
+    "prettier": "^2.3.2",
+    "prettier-package-json": "^2.6.0",
+    "rimraf": "^3.0.2"
+  },
+  "keywords": [
+    "azure",
+    "drag&drop",
+    "drag-and-drop",
+    "drag-and-drop-state-machine",
+    "javascript",
+    "machine",
+    "state",
+    "state-machine",
+    "webpack",
+    "xstate"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test",
+      "pre-commit": "lint-staged && npm test"
+    }
+  }
+}

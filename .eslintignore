@@ -1,0 +1,7 @@
+*.json
+*.html
+
+dist
+node_modules
+
+commitlint.config.js
