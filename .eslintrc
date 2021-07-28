@@ -8,7 +8,13 @@
     {
       "files": [
         "*.js"
-      ]
+      ],
+      "rules": {
+        "global-require": "off",
+        "function-paren-newline": "off",
+        "implicit-arrow-linebreak": "off",
+        "import/no-dynamic-require": "off"
+      }
     }
   ]
 }
