@@ -1,6 +1,9 @@
-function doAction() {
-  // eslint-disable-next-line no-console
-  console.log('doAction message');
-}
+import fs from 'indexeddb-fs';
 
-doAction();
+const doActions = async () => {
+  await fs.createDirectory('files');
+  await fs.createDirectory('/files/private');
+  await fs.createDirectory('root/files/public');
+};
+
+doActions();
