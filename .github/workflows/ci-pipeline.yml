@@ -43,5 +43,5 @@ jobs:
       - name: Install npm
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
-      - name: Run build
-        run: npm run build
+      - name: Run prod
+        run: npm run prod
