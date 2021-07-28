@@ -2,6 +2,16 @@
   "name": "drag-and-drop-state-machine",
   "version": "1.0.0",
   "description": "drag and drop state machine",
+  "license": "MIT",
+  "author": "Paweł Wojtasiński",
+  "homepage": "https://github.com/playerony/drag-and-drop-state-machine#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerony/drag-and-drop-state-machine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/playerony/drag-and-drop-state-machine/issues"
+  },
   "main": "src/index.js",
   "scripts": {
     "check": "npm run lint && npm run typecheck",
@@ -9,20 +19,10 @@
     "format": "prettier --write \"src/**/*\"",
     "lint": "eslint \"./src/**/*\"",
     "lint:fix": "eslint --fix \"./src/**/*\"",
+    "prepare": "husky install",
     "reinstall-deps": "bash ./scripts/reinstall-deps.sh",
-    "typecheck": "tsc --noEmit",
-    "prepare": "husky install"
+    "typecheck": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/playerony/drag-and-drop-state-machine.git"
-  },
-  "author": "Paweł Wojtasiński",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/playerony/drag-and-drop-state-machine/issues"
-  },
-  "homepage": "https://github.com/playerony/drag-and-drop-state-machine#readme",
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -35,8 +35,10 @@
     "prettier-package-json": "^2.6.0",
     "rimraf": "^3.0.2"
   },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.src/**/*": "prettier --write"
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test",
+      "pre-commit": "lint-staged && npm test"
+    }
   }
 }
