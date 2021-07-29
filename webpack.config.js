@@ -10,7 +10,26 @@ module.exports = ({ mode } = { mode: 'production' }) =>
       output: {
         filename: 'bundle.js',
       },
-      plugins: [new HtmlWebpackPlugin()],
+      module: {
+        rules: [
+          {
+            test: /\.css$/,
+            use: [
+              {
+                loader: 'style-loader',
+              },
+              {
+                loader: 'css-loader',
+              },
+            ],
+          },
+        ],
+      },
+      plugins: [
+        new HtmlWebpackPlugin({
+          template: './public/index.html',
+        }),
+      ],
     },
     modeConfiguration({ mode }),
   );
