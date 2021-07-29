@@ -17,3 +17,18 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
 }
+
+main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#box {
+  width: 25vmin;
+  height: 25vmin;
+  border-radius: 1rem;
+  background-color: #de6449;
+}
