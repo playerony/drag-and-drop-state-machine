@@ -1,7 +1,7 @@
 {
-  "*.{css}": "npx stylelint",
   "*.{js,md}": "prettier --write",
   "*.src/**/*": "prettier --write",
+  "*.{css}": "npx stylelint --fix",
   "*.{js,ts,tsx}": "eslint --cache --fix",
   "package.json": "prettier-package-json --write"
 }
