@@ -25,6 +25,8 @@
     "prepare": "husky install",
     "reinstall-deps": "bash ./scripts/reinstall-deps.sh",
     "start": "npm run webpack -- serve --hot --open --port 3030 --env mode=development",
+    "stylelint": "npx stylelint '**/*.css'",
+    "stylelint:fix": "npx stylelint --fix '**/*.css'",
     "webpack": "webpack"
   },
   "dependencies": {
@@ -49,6 +51,8 @@
     "prettier-package-json": "^2.6.0",
     "rimraf": "^3.0.2",
     "style-loader": "^3.2.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "webpack": "^5.47.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"

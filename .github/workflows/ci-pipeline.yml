@@ -24,9 +24,31 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+  stylelint:
+    needs: lint
+    name: stylelint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - name: Install npm
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Run stylelint
+        run: npm run stylelint
+
   build:
     name: build
-    needs: lint
+    needs: stylelint
     runs-on: ubuntu-latest
     strategy:
       matrix:
