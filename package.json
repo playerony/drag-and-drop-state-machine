@@ -21,7 +21,7 @@
     "commitlint": "commitlint -- --from=main",
     "format": "prettier --write \"src/**/*\"",
     "lint": "eslint \"./src/**/*\"",
-    "lint:fix": "eslint --fix \"./src/**/*\"",
+    "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
     "reinstall-deps": "bash ./scripts/reinstall-deps.sh",
     "start": "npm run webpack -- serve --hot --open --port 3030 --env mode=development",
