@@ -6,9 +6,7 @@
   },
   "overrides": [
     {
-      "files": [
-        "*.js"
-      ],
+      "files": ["*.js"],
       "rules": {
         "global-require": "off",
         "function-paren-newline": "off",
