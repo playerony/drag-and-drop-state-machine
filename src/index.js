@@ -59,18 +59,18 @@ function initializeEvents() {
   bodyElement.addEventListener('mouseout', service.send);
   bodyElement.addEventListener('mousemove', service.send);
 
-  bodyElement.addEventListener('keyup', (e) => {
-    if (e.key === 'Escape') {
+  bodyElement.addEventListener('keyup', ({ key }) => {
+    if (key === 'Escape') {
       service.send('keyup.escape');
     }
 
-    if (e.key === 'Shift') {
+    if (key === 'Shift') {
       service.send('keyup.shift');
     }
   });
 
-  bodyElement.addEventListener('keydown', (e) => {
-    if (e.key === 'Shift') {
+  bodyElement.addEventListener('keydown', ({ key }) => {
+    if (key === 'Shift') {
       service.send('keydown.shift');
     }
   });
