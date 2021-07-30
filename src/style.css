@@ -27,9 +27,12 @@ main {
 }
 
 #box {
+  display: flex;
   cursor: pointer;
   position: absolute;
+  align-items: center;
   border-radius: 0.5rem;
+  justify-content: center;
   background-color: #de6449;
   top: calc(var(--y) * 1px);
   left: calc(var(--x) * 1px);
@@ -39,15 +42,25 @@ main {
   transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px));
 }
 
-#box:hover {
-  border: 5px solid black;
+#box::before {
+  height: 0;
+  opacity: 0;
+  content: '';
+  width: 200%;
+  position: absolute;
+  border: 1px dashed red;
+  transition: opacity 0.3s ease;
 }
 
-#box[data-state=dragging] {
+#box[data-state^=dragging] {
   opacity: 0.8;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
 }
 
+#box[data-state~="dragging.locked"]::before {
+  opacity: 1;
+}
+
 #box[data-state=idle] {
-  transition: all 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }

@@ -11,10 +11,21 @@ export function createDragAndDropStateMachine(initialContext) {
     deltaY: (context, event) => event.clientY - context.clickPositionY,
   });
 
+  const assignLockedDelta = assign({
+    deltaX: (context, event) => event.clientX - context.clickPositionX,
+  });
+
   const assignPosition = assign({
     ...initialContext,
     positionX: (context) => context.positionX + context.deltaX,
     positionY: (context) => context.positionY + context.deltaY,
+  });
+
+  const resetPosition = assign({
+    deltaX: 0,
+    deltaY: 0,
+    clickPositionX: 0,
+    clickPositionY: 0,
   });
 
   return createMachine({
@@ -30,6 +41,22 @@ export function createDragAndDropStateMachine(initialContext) {
         },
       },
       dragging: {
+        initial: 'normal',
+        states: {
+          normal: {
+            on: {
+              'keydown.shift': 'locked',
+            },
+          },
+          locked: {
+            on: {
+              'keyup.shift': 'normal',
+              mousemove: {
+                actions: assignLockedDelta,
+              },
+            },
+          },
+        },
         on: {
           mousemove: {
             actions: assignDelta,
@@ -37,6 +64,14 @@ export function createDragAndDropStateMachine(initialContext) {
           mouseup: {
             target: 'idle',
             actions: assignPosition,
+          },
+          mouseout: {
+            target: 'idle',
+            actions: resetPosition,
+          },
+          'keyup.escape': {
+            target: 'idle',
+            actions: resetPosition,
           },
         },
       },
