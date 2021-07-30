@@ -10,6 +10,10 @@ import './style.css';
 let service = null;
 const bodyElement = document.body;
 const boxElement = document.getElementById('box');
+const deltaDetailsElement = document.getElementById('delta');
+const stateDetailsElement = document.getElementById('state');
+const boxPositionDetailsElement = document.getElementById('box-position');
+const clickPositionDetailsElement = document.getElementById('click-position');
 
 const { centerX, centerY } = getBoxElementCenterPosition();
 
@@ -24,6 +28,10 @@ const initialContext = {
 
 function initializeBoxElementPosition() {
   boxElement.dataset.state = 'idle';
+  deltaDetailsElement.innerHTML = 'Delta: 0 0';
+  stateDetailsElement.innerHTML = 'State: idle';
+  boxPositionDetailsElement.innerHTML = 'Box position: 0 0';
+  clickPositionDetailsElement.innerHTML = 'Click position: 0 0';
 
   boxElement.style.setProperty('--x', centerX);
   boxElement.style.setProperty('--y', centerY);
@@ -39,6 +47,10 @@ function initializeService() {
   machineService.onTransition(({ context, changed, toStrings }) => {
     if (changed) {
       boxElement.dataset.state = toStrings().join(' ');
+      stateDetailsElement.innerHTML = `State: ${toStrings().join(' ')}`;
+      deltaDetailsElement.innerHTML = `Delta: ${context.deltaX} ${context.deltaY}`;
+      boxPositionDetailsElement.innerHTML = `Box position: ${context.positionX} ${context.positionY}`;
+      clickPositionDetailsElement.innerHTML = `Click position: ${context.clickPositionX} ${context.clickPositionY}`;
 
       boxElement.style.setProperty('--dx', context.deltaX);
       boxElement.style.setProperty('--dy', context.deltaY);
