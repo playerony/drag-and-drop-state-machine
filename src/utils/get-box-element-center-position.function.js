@@ -1,6 +1,6 @@
-import { getWindowSize } from './utils';
+import { getWindowSize } from '.';
 
-import { BOX_WIDTH, BOX_HEIGHT } from './constants';
+import { BOX_WIDTH, BOX_HEIGHT } from '../constants';
 
 export function getBoxElementCenterPosition() {
   const { width, height } = getWindowSize();

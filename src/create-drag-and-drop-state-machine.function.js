@@ -1,34 +1,47 @@
 import { assign, createMachine } from 'xstate';
 
-export function createDragAndDropStateMachine(initialContext) {
-  const assignClickPosition = assign({
-    clickPositionX: (_, event) => event.clientX,
-    clickPositionY: (_, event) => event.clientY,
-  });
+import { getBoxElementCenterPosition } from './utils';
 
-  const assignDelta = assign({
-    deltaX: (context, event) => event.clientX - context.clickPositionX,
-    deltaY: (context, event) => event.clientY - context.clickPositionY,
-  });
+const { centerX, centerY } = getBoxElementCenterPosition();
 
-  const assignLockedDelta = assign({
-    deltaX: (context, event) => event.clientX - context.clickPositionX,
-  });
+const initialContext = {
+  deltaX: 0,
+  deltaY: 0,
+  clickPositionX: 0,
+  clickPositionY: 0,
+  positionX: centerX,
+  positionY: centerY,
+};
 
-  const assignPosition = assign({
-    ...initialContext,
-    positionX: (context) => context.positionX + context.deltaX,
-    positionY: (context) => context.positionY + context.deltaY,
-  });
+const assignClickPosition = assign({
+  clickPositionX: (_, event) => event.clientX,
+  clickPositionY: (_, event) => event.clientY,
+});
 
-  const resetPosition = assign({
-    deltaX: 0,
-    deltaY: 0,
-    clickPositionX: 0,
-    clickPositionY: 0,
-  });
+const assignDelta = assign({
+  deltaX: (context, event) => event.clientX - context.clickPositionX,
+  deltaY: (context, event) => event.clientY - context.clickPositionY,
+});
 
-  return createMachine({
+const assignLockedDelta = assign({
+  deltaX: (context, event) => event.clientX - context.clickPositionX,
+});
+
+const assignPosition = assign({
+  ...initialContext,
+  positionX: (context) => context.positionX + context.deltaX,
+  positionY: (context) => context.positionY + context.deltaY,
+});
+
+const resetPosition = assign({
+  deltaX: 0,
+  deltaY: 0,
+  clickPositionX: 0,
+  clickPositionY: 0,
+});
+
+export const createDragAndDropStateMachine = () =>
+  createMachine({
     initial: 'idle',
     context: initialContext,
     states: {
@@ -77,4 +90,3 @@ export function createDragAndDropStateMachine(initialContext) {
       },
     },
   });
-}
