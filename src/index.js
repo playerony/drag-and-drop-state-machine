@@ -1,6 +1,6 @@
 import { interpret } from 'xstate';
 
-import { getBoxElementCenterPosition } from './get-box-element-center-position.function';
+import { getBoxElementCenterPosition } from './utils';
 import { createDragAndDropStateMachine } from './create-drag-and-drop-state-machine.function';
 
 import { BOX_WIDTH, BOX_HEIGHT } from './constants';
@@ -39,7 +39,7 @@ function initializeBoxElementPosition() {
   boxElement.style.setProperty('--height', BOX_HEIGHT);
 }
 
-function initializeService() {
+function initializeDragAndDropStateMachineService() {
   const dragAndDropMachine = createDragAndDropStateMachine(initialContext);
 
   const machineService = interpret(dragAndDropMachine);
@@ -64,7 +64,7 @@ function initializeService() {
   service = machineService;
 }
 
-function initializeEvents() {
+function initializeEventListeners() {
   boxElement.addEventListener('mousedown', service.send);
 
   bodyElement.addEventListener('mouseup', service.send);
@@ -90,8 +90,8 @@ function initializeEvents() {
 
 function initialize() {
   initializeBoxElementPosition();
-  initializeService();
-  initializeEvents();
+  initializeDragAndDropStateMachineService();
+  initializeEventListeners();
 }
 
 initialize();
