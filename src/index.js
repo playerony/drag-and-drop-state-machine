@@ -36,9 +36,9 @@ function initializeService() {
 
   const machineService = interpret(dragAndDropMachine);
 
-  machineService.onTransition(({ value, context, changed }) => {
+  machineService.onTransition(({ context, changed, toStrings }) => {
     if (changed) {
-      boxElement.dataset.state = value;
+      boxElement.dataset.state = toStrings().join(' ');
 
       boxElement.style.setProperty('--dx', context.deltaX);
       boxElement.style.setProperty('--dy', context.deltaY);
@@ -56,7 +56,24 @@ function initializeEvents() {
   boxElement.addEventListener('mousedown', service.send);
 
   bodyElement.addEventListener('mouseup', service.send);
+  bodyElement.addEventListener('mouseout', service.send);
   bodyElement.addEventListener('mousemove', service.send);
+
+  bodyElement.addEventListener('keyup', (e) => {
+    if (e.key === 'Escape') {
+      service.send('keyup.escape');
+    }
+
+    if (e.key === 'Shift') {
+      service.send('keyup.shift');
+    }
+  });
+
+  bodyElement.addEventListener('keydown', (e) => {
+    if (e.key === 'Shift') {
+      service.send('keydown.shift');
+    }
+  });
 }
 
 function initialize() {
