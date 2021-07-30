@@ -1,37 +1,68 @@
-import { assign, interpret, createMachine } from 'xstate';
+import { interpret } from 'xstate';
+
+import { getBoxElementCenterPosition } from './get-box-element-center-position.function';
+import { createDragAndDropStateMachine } from './create-drag-and-drop-state-machine.function';
+
+import { BOX_WIDTH, BOX_HEIGHT } from './constants';
 
 import './style.css';
 
-// const bodyElement = document.body;
+let service = null;
+const bodyElement = document.body;
 const boxElement = document.getElementById('box');
 
-const assignClickPosition = assign({
-  clickPositionX: (_, event) => event.clientX,
-  clickPositionY: (_, event) => event.clientY,
-});
+const { centerX, centerY } = getBoxElementCenterPosition();
 
-const dragAndDropMachine = createMachine({
-  initial: 'idle',
-  context: {
-    clickPositionX: 0,
-    clickPositionY: 0,
-  },
-  states: {
-    idle: {
-      on: {
-        mousedown: {
-          target: 'idle',
-          actions: assignClickPosition,
-        },
-      },
-    },
-  },
-});
+const initialContext = {
+  deltaX: 0,
+  deltaY: 0,
+  clickPositionX: 0,
+  clickPositionY: 0,
+  positionX: centerX,
+  positionY: centerY,
+};
 
-const service = interpret(dragAndDropMachine);
+function initializeBoxElementPosition() {
+  boxElement.dataset.state = 'idle';
 
-service.start();
+  boxElement.style.setProperty('--x', centerX);
+  boxElement.style.setProperty('--y', centerY);
+  boxElement.style.setProperty('--width', BOX_WIDTH);
+  boxElement.style.setProperty('--height', BOX_HEIGHT);
+}
 
-boxElement.addEventListener('mousedown', (event) => {
-  service.send(event);
-});
+function initializeService() {
+  const dragAndDropMachine = createDragAndDropStateMachine(initialContext);
+
+  const machineService = interpret(dragAndDropMachine);
+
+  machineService.onTransition(({ value, context, changed }) => {
+    if (changed) {
+      boxElement.dataset.state = value;
+
+      boxElement.style.setProperty('--dx', context.deltaX);
+      boxElement.style.setProperty('--dy', context.deltaY);
+      boxElement.style.setProperty('--x', context.positionX);
+      boxElement.style.setProperty('--y', context.positionY);
+    }
+  });
+
+  machineService.start();
+
+  service = machineService;
+}
+
+function initializeEvents() {
+  boxElement.addEventListener('mousedown', service.send);
+
+  bodyElement.addEventListener('mouseup', service.send);
+  bodyElement.addEventListener('mousemove', service.send);
+}
+
+function initialize() {
+  initializeBoxElementPosition();
+  initializeService();
+  initializeEvents();
+}
+
+initialize();
