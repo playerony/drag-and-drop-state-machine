@@ -6,12 +6,18 @@
   },
   "overrides": [
     {
-      "files": ["*.js"],
+      "files": [
+        "*.js"
+      ],
       "rules": {
+        "wrap-iife": "off",
         "global-require": "off",
+        "no-param-reassign": "off",
         "function-paren-newline": "off",
         "implicit-arrow-linebreak": "off",
-        "import/no-dynamic-require": "off"
+        "import/no-cycle": "off",
+        "import/no-dynamic-require": "off",
+        "import/prefer-default-export": "off"
       }
     }
   ]
